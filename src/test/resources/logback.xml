@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <!-- Console: concise, so CI logs stay readable. -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{28} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!--
+    File: full detail, rolled by size and time.
+    SizeAndTimeBasedRollingPolicy, not TimeBasedRollingPolicy: the latter
+    rejects maxFileSize and the %i index, which silently disables the whole
+    appender and leaves no log file behind.
+  -->
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/execution.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>logs/execution.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>10MB</maxFileSize>
+      <maxHistory>7</maxHistory>
+      <totalSizeCap>200MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Framework classes: verbose enough to trace a failure. -->
+  <logger name="factory" level="DEBUG"/>
+  <logger name="pages" level="DEBUG"/>
+  <logger name="hooks" level="DEBUG"/>
+  <logger name="stepdefinitions" level="DEBUG"/>
+  <logger name="utils" level="DEBUG"/>
+
+  <!-- Third-party noise. Selenium and WebDriverManager are very chatty at INFO. -->
+  <logger name="org.openqa.selenium" level="WARN"/>
+  <logger name="io.github.bonigarcia" level="WARN"/>
+  <logger name="io.cucumber" level="INFO"/>
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="FILE"/>
+  </root>
+
+</configuration>

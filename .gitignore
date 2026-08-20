@@ -1,0 +1,24 @@
+# Maven
+target/
+pom.xml.versionsBackup
+
+# Test output: keep the directories, ignore everything generated inside them
+reports/*
+!reports/.gitkeep
+screenshots/*
+!screenshots/.gitkeep
+logs/
+
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
